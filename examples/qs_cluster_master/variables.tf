@@ -37,12 +37,7 @@ variable "gateway_instance_type" {
   description = "The instance type of the Security Gateways"
 default = "ecs.g5ne.xlarge"
 }
-module "validate_instance_type" {
-  source = "../common/instance_type"
 
-  chkp_type = "gateway"
-  instance_type = var.gateway_instance_type
-}
 variable "key_name" {
   type = string
   description = "The ECS Key Pair name to allow SSH access to the instances"
@@ -83,16 +78,11 @@ variable "gateway_version" {
   description =  "Gateway version and license"
   default = "R81-BYOL"
 }
-module "validate_gateway_version" {
-  source = "../common/version_license"
 
-  chkp_type = "gateway"
-  version_license = var.gateway_version
-}
 variable "admin_shell" {
   type = string
   description = "Set the admin shell to enable advanced command line configuration"
-default = "/etc/cli.sh"
+  default = "/etc/cli.sh"
 }
 variable "gateway_SICKey" {
   type = string

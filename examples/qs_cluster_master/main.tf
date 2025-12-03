@@ -1,13 +1,15 @@
 module "example_module" {
   source  = "lyqwaterway/cloudguard-network-security-cn/alicloud//modules/cluster-master"
-  version = "1.0.1"
+  version = "0.0.1"
   vpc_cidr = var.vpc_cidr
   cluster_vswitchs_map = var.cluster_vswitchs_map
   management_vswitchs_map = var.management_vswitchs_map
   private_vswitchs_map = var.private_vswitchs_map
   vswitchs_bit_length = var.vswitchs_bit_length
 
+
   // --- ECS Instance Configuration ---
+  key_name = var.key_name
   gateway_name = var.gateway_name
   gateway_instance_type = var.gateway_instance_type
   allocate_and_associate_eip = var.allocate_and_associate_eip

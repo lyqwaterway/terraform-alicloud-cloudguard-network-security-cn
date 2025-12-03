@@ -14,25 +14,6 @@ This repository provides a structured set of Terraform modules for deploying Che
 ## Repository Structure
 `Submodules:` Contains modular, reusable, production-grade Terraform components, each with its own documentation.
 
-`Examples:` Demonstrates how to use the modules.
-
-
-**Submodules:**
-* [`cluster`](https://registry.terraform.io/modules/lyqwaterway/cloudguard-network-security-cn/alicloud/latest/submodules/cluster) - Deploys CloudGuard High Availability solution into an existing VPC.
-* [`cluster-master`](https://registry.terraform.io/modules/lyqwaterway/cloudguard-network-security-cn/alicloud/latest/submodules/cluster-master) Deploys CloudGuard High Availability solution into a new VPC.
-* [`management`](https://registry.terraform.io/modules/lyqwaterway/cloudguard-network-security-cn/alicloud/latest/submodules/management) - Deploys CloudGuard Management solution into an existing VPC.
-* [`management-master`](https://registry.terraform.io/modules/lyqwaterway/cloudguard-network-security-cn/alicloud/latest/submodules/management-master) - Deploys CloudGuard Management solution into a new VPC
-* [`gateway`](https://registry.terraform.io/modules/lyqwaterway/cloudguard-network-security-cn/alicloud/latest/submodules/gateway) - Deploys CloudGuard Single Gateway solution into an existing VPC.
-* [`gateway-master`](https://registry.terraform.io/modules/lyqwaterway/cloudguard-network-security-cn/alicloud/latest/submodules/gateway-master) - Deploys CloudGuard Single Gateway solution into a new VPC.
-
-Internal Submodules -
-
-* [`common`](https://registry.terraform.io/modules/lyqwaterway/cloudguard-network-security-cn/alicloud/latest/submodules/common) - Contains shared configurations and reusable components for all modules.
-
-* [`cluster-ram-role`](https://registry.terraform.io/modules/lyqwaterway/cloudguard-network-security-cn/alicloud/latest/submodules/cluster-ram-role) - Creates Alicloud RAM Role for Cloud Management Extension (CME) on Security Management Server.
-
-- [`vpc`](https://registry.terraform.io/modules/lyqwaterway/cloudguard-network-security-cn/alicloud/latest/submodules/vpc) - Simplifies Virtual Network and subnet configurations.
-
 ***
 
 ## Note
@@ -62,9 +43,39 @@ Add the required module in your Terraform configuration file (`main.tf`) to depl
 
 ```hcl
 module "example_module" {
-  source  = "lyqwaterway/cloudguard-network-security-cn/alicloud//modules/cluster-master"
-  version = "1.0.0"
-  # Add the required inputs
+  source  = "lyqwaterway/cloudguard-network-security-cn/alicloud//modules/{module_name}"
+  version = "{chosen_version}"
+  vpc_cidr = var.vpc_cidr
+  cluster_vswitchs_map = var.cluster_vswitchs_map
+  management_vswitchs_map = var.management_vswitchs_map
+  private_vswitchs_map = var.private_vswitchs_map
+  vswitchs_bit_length = var.vswitchs_bit_length
+
+
+  // --- ECS Instance Configuration ---
+  key_name = var.key_name
+  gateway_name = var.gateway_name
+  gateway_instance_type = var.gateway_instance_type
+  allocate_and_associate_eip = var.allocate_and_associate_eip
+  volume_size = var.volume_size
+  disk_category = var.disk_category
+  ram_role_name = var.ram_role_name
+  instance_tags = var.instance_tags
+
+  // --- Check Point Settings ---
+  gateway_version = var.gateway_version
+  admin_shell = var.admin_shell
+  gateway_SICKey = var.gateway_SICKey
+  gateway_password_hash = var.gateway_password_hash
+
+  // --- Advanced Settings ---
+  management_ip_address = var.management_ip_address
+  resources_tag_name = var.resources_tag_name
+  gateway_hostname = var.gateway_hostname
+  allow_upload_download = var.allow_upload_download
+  gateway_bootstrap_script = var.gateway_bootstrap_script
+  primary_ntp = var.primary_ntp
+  secondary_ntp = var.secondary_ntp
 }
 ```
 ---
@@ -74,7 +85,7 @@ module "example_module" {
     ```
     terraform init
    ```
-- Create or modify vpc and route table in the deployment :
+- Create or modify vpc and subnet in the deployment :
      ```
     terraform apply -target==module.example_module.alicloud_route_table.private_vswitch_r
     ```

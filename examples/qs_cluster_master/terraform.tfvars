@@ -1,0 +1,43 @@
+//PLEASE refer to README.md for accepted values FOR THE VARIABLES BELOW
+
+// --- VPC Network Configuration ---
+vpc_cidr = "10.0.0.0/16"
+cluster_vswitchs_map = {
+  "cn-beijing-k" = 1
+}
+management_vswitchs_map = {
+  "cn-beijing-k" = 2
+}
+private_vswitchs_map = {
+  "cn-beijing-k" = 3
+}
+vswitchs_bit_length = 8
+
+// --- ECS Instance Configuration ---
+gateway_name = "Check-Point-Cluster-tf"
+gateway_instance_type = "ecs.g5ne.xlarge"
+key_name = ""
+allocate_and_associate_eip = false
+volume_size = 100
+disk_category = "cloud_efficiency"
+# disk_category = "cloud_essd"
+ram_role_name = ""
+instance_tags = {
+  key1 = "value1"
+  key2 = "value2"
+}
+
+// --- Check Point Settings ---
+gateway_version = "R81.20-BYOL"
+admin_shell = "/etc/cli.sh"
+gateway_SICKey = "123456789"
+gateway_password_hash = "$6$NX7BwgSmOR4TFmMN$f.ZcNLMfAYtpq2L20MdlvVAJx8Oc4X9eTVSnF9Y3HSrzEv.L46yS0LsLsP8S5bBnLisf5iW/XzQenBdyHnwya0"
+
+// --- Advanced Settings ---
+management_ip_address = ""
+resources_tag_name = "checkpoint"
+gateway_hostname = "gw-hostname"
+allow_upload_download = true
+gateway_bootstrap_script = ""
+primary_ntp = ""
+secondary_ntp = ""

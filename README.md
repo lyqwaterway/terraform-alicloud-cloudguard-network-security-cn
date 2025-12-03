@@ -14,8 +14,6 @@ This repository provides a structured set of Terraform modules for deploying Che
 ## Repository Structure
 `Submodules:` Contains modular, reusable, production-grade Terraform components, each with its own documentation.
 
-`Examples:` Demonstrates how to use the modules.
-
 
 **Submodules:**
 * [`cluster`](https://registry.terraform.io/modules/lyqwaterway/cloudguard-network-security-cn/alicloud/latest/submodules/cluster) - Deploys CloudGuard High Availability solution into an existing VPC.
@@ -74,11 +72,15 @@ module "example_module" {
     ```
     terraform init
    ```
-- Create an execution plan:
-    ```
-    terraform plan -target=alicloud_route_table.private_vswitch_rt -auto-approve && terraform plan
-    ```
-- Create or modify the deployment:
+- Create or modify vpc and subnet in the deployment :
      ```
-    terraform apply -target=alicloud_route_table.private_vswitch_rt -auto-approve && terraform plan
+    terraform apply -target==module.example_module.alicloud_route_table.private_vswitch_r
+    ```
+- - Create an execution plan:
+    ```
+    terraform plan
+    ```
+- Create or modify the whole deployment:
+     ```
+    terraform apply
     ```
