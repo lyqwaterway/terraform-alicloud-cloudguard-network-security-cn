@@ -44,7 +44,7 @@ Add the required module in your Terraform configuration file (`main.tf`) to depl
 ```hcl
 module "example_module" {
   source  = "lyqwaterway/cloudguard-network-security-cn/alicloud//modules/{module_name}"
-  version = "{chosen_version}"
+  version = "1.0.0"
   vpc_cidr = var.vpc_cidr
   cluster_vswitchs_map = var.cluster_vswitchs_map
   management_vswitchs_map = var.management_vswitchs_map
