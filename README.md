@@ -64,6 +64,7 @@ Add the required module in your Terraform configuration file (`main.tf`) to depl
 module "example_module" {
   source  = "lyqwaterway/cloudguard-network-security-cn/alicloud//modules/{module_name}"
   version = "{chosen_version}"
+  # Add the required inputs
 }
 ```
 ---

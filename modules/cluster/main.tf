@@ -6,7 +6,7 @@ module "images" {
 }
 
 module "common_permissive_sg" {
-  source = "../common/permissive_sg"
+  source = "../permissive_sg"
 
   vpc_id = var.vpc_id
   resources_tag_name = var.resources_tag_name
@@ -125,21 +125,21 @@ resource "alicloud_network_interface_attachment" "member_b_internal_eni_attachme
 
 // EIPs
 module "common_cluster_primary_eip" {
-  source = "../common/elastic_ip"
+  source = "../elastic_ip"
 
   allocate_and_associate_eip = true
   instance_id = alicloud_instance.member-a-instance.id
   eip_name = format("%s-cluster-primary-eip", var.resources_tag_name != "" ? var.resources_tag_name : var.gateway_name)
 }
 module "common_cluster_secondary_eip" {
-  source = "../common/elastic_ip"
+  source = "../elastic_ip"
 
   allocate_and_associate_eip = true
   instance_id = alicloud_instance.member-b-instance.id
   eip_name = format("%s-cluster-secondary-eip", var.resources_tag_name != "" ? var.resources_tag_name : var.gateway_name)
 }
 module "common_member_a_mgmt_eip" {
-  source = "../common/elastic_ip"
+  source = "../elastic_ip"
 
   allocate_and_associate_eip = var.allocate_and_associate_eip
   instance_id = alicloud_network_interface.member_a_mgmt_eni.id
@@ -147,7 +147,7 @@ module "common_member_a_mgmt_eip" {
   eip_name = format("%s-member-A-eip", var.resources_tag_name != "" ? var.resources_tag_name : var.gateway_name)
 }
 module "common_member_b_mgmt_eip" {
-  source = "../common/elastic_ip"
+  source = "../elastic_ip"
 
   allocate_and_associate_eip = var.allocate_and_associate_eip
   instance_id = alicloud_network_interface.member_b_mgmt_eni.id
@@ -156,7 +156,7 @@ module "common_member_b_mgmt_eip" {
 }
 
 module "common_internal_default_route" {
-  source = "../common/internal_default_route"
+  source = "../internal_default_route"
 
   private_route_table = var.private_route_table
   internal_eni_id = alicloud_network_interface.member_a_internal_eni.id

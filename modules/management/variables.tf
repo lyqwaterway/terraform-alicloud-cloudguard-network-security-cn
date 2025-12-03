@@ -19,7 +19,7 @@ variable "instance_type" {
   default ="ecs.g6e.xlarge"
 }
 module "validate_instance_type" {
-  source = "../common/instance_type"
+  source = "../instance_type"
 
   chkp_type = "management"
   instance_type = var.instance_type
@@ -61,7 +61,7 @@ variable "version_license" {
   default = "R81-BYOL"
 }
 module "validate_management_version" {
-  source = "../common/version_license"
+  source = "../version_license"
 
   chkp_type = "management"
   version_license = var.version_license

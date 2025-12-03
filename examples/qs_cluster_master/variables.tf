@@ -1,23 +1,29 @@
 // --- VPC Network Configuration ---
-variable "vpc_id" {
+variable "vpc_name" {
   type = string
+  description = "The name of the VPC"
+  default = "cp-vpc"
 }
-variable "cluster_vswitch_id" {
+variable "vpc_cidr" {
   type = string
-  description = "The cluster vswitch of the security gateways"
+  description = "The CIDR block of the VPC"
+  default = "10.0.0.0/16"
 }
-variable "mgmt_vswitch_id" {
-  type = string
-  description = "The management vswitch of the security gateways"
+variable "cluster_vswitchs_map" {
+  type = map(string)
+  description = "A map of pairs {availability-zone = vswitch-suffix-number}. Each entry creates a vswitch. Minimum 1 pair.  (e.g. {\"us-east-1a\" = 1} ) "
 }
-variable "private_vswitch_id" {
-  type = string
-  description = "The private vswitch of the security gateways"
+variable "management_vswitchs_map" {
+  type = map(string)
+  description = "A map of pairs {availability-zone = vswitch-suffix-number}. Each entry creates a vswitch. Minimum 1 pair.  (e.g. {\"us-east-1a\" = 2} ) "
 }
-variable "private_route_table" {
-  type = string
-  description = "(Optional) Sets '0.0.0.0/0' route to the Active Cluster member instance in the specified route table (e.g. vtb-12a34567). Route table cannot have an existing 0.0.0.0/0 route. If empty - traffic will not be routed through the Security Gateway, this requires manual configuration in the Route Table"
-  default=""
+variable "private_vswitchs_map" {
+  type = map(string)
+  description = "A map of pairs {availability-zone = vswitch-suffix-number}. Each entry creates a vswitch. Minimum 1 pair.  (e.g. {\"us-east-1a\" = 2} ) "
+}
+variable "vswitchs_bit_length" {
+  type = number
+  description = "Number of additional bits with which to extend the vpc cidr. For example, if given a vpc_cidr ending in /16 and a vswitchs_bit_length value is 4, the resulting vswitch address will have length /20"
 }
 
 // --- ECS Instance Configuration ---
@@ -29,10 +35,10 @@ variable "gateway_name" {
 variable "gateway_instance_type" {
   type = string
   description = "The instance type of the Security Gateways"
-  default = "ecs.g5ne.xlarge"
+default = "ecs.g5ne.xlarge"
 }
 module "validate_instance_type" {
-  source = "../instance_type"
+  source = "../common/instance_type"
 
   chkp_type = "gateway"
   instance_type = var.gateway_instance_type
@@ -44,12 +50,12 @@ variable "key_name" {
 variable "allocate_and_associate_eip" {
   type = bool
   description = "If set to TRUE, an elastic IP will be allocated and associated with each cluster member, in addition to the cluster Elastic IP"
-  default = true
+default = true
 }
 variable "volume_size" {
   type = number
   description = "Root volume size (GB) - minimum 100"
-  default = 100
+default = 100
 }
 variable "disk_category" {
   type = string
@@ -68,17 +74,17 @@ resource "null_resource" "volume_size_too_small" {
 variable "instance_tags" {
   type = map(string)
   description = "(Optional) A map of tags as key=value pairs. All tags will be added to the Gateway ECS Instances"
-  default = {}
+default = {}
 }
 
 // --- Check Point Settings ---
 variable "gateway_version" {
   type = string
-  description = "Gateway version and license"
+  description =  "Gateway version and license"
   default = "R81-BYOL"
 }
 module "validate_gateway_version" {
-  source = "../version_license"
+  source = "../common/version_license"
 
   chkp_type = "gateway"
   version_license = var.gateway_version
@@ -86,7 +92,7 @@ module "validate_gateway_version" {
 variable "admin_shell" {
   type = string
   description = "Set the admin shell to enable advanced command line configuration"
-  default = "/etc/cli.sh"
+default = "/etc/cli.sh"
 }
 variable "gateway_SICKey" {
   type = string
@@ -95,7 +101,7 @@ variable "gateway_SICKey" {
 variable "gateway_password_hash" {
   type = string
   description = "(Optional) Admin user's password hash (use command \"openssl passwd -6 PASSWORD\" to get the PASSWORD's hash)"
-  default = ""
+default = ""
 }
 
 // --- Advanced Settings ---
@@ -117,7 +123,7 @@ variable "gateway_hostname" {
 variable "allow_upload_download" {
   type = bool
   description = "Automatically download Blade Contracts and other important data. Improve product experience by sending data to Check Point"
-  default = true
+default = true
 }
 variable "gateway_bootstrap_script" {
   type = string

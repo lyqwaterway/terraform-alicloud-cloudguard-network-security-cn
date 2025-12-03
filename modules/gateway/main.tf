@@ -6,7 +6,7 @@ module "images" {
 }
 
 module "common_permissive_sg" {
-  source = "../common/permissive_sg"
+  source = "../permissive_sg"
 
   vpc_id = var.vpc_id
   resources_tag_name = var.resources_tag_name
@@ -14,7 +14,7 @@ module "common_permissive_sg" {
 }
 
 module "common_gateway_instance" {
-  source = "../common/gateway_instance"
+  source = "../gateway_instance"
   security_groups = [
     module.common_permissive_sg.permissive_sg_id]
   gateway_name = var.gateway_name
@@ -50,14 +50,14 @@ resource "alicloud_network_interface_attachment" "internal_eni_attachment" {
 }
 
 module "common_internal_default_route" {
-  source = "../common/internal_default_route"
+  source = "../internal_default_route"
 
   private_route_table = var.private_route_table
   internal_eni_id = alicloud_network_interface.internal_eni.id
 }
 
 module "common_eip" {
-  source = "../common/elastic_ip"
+  source = "../elastic_ip"
   allocate_and_associate_eip = var.allocate_and_associate_eip
   instance_id = module.common_gateway_instance.gateway_instance_id
 }

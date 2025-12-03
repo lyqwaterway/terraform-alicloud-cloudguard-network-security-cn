@@ -165,7 +165,7 @@ resource "alicloud_instance" "management_instance" {
 }
 
 module "common_eip" {
-  source = "../common/elastic_ip"
+  source = "../elastic_ip"
   allocate_and_associate_eip = var.allocate_and_associate_eip
   instance_id = alicloud_instance.management_instance.id
 }
