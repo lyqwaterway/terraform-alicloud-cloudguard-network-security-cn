@@ -1,0 +1,28 @@
+provider "alicloud" {}
+module "example_module" {
+  source  = "lyqwaterway/cloudguard-network-security-cn/alicloud//modules/management"
+  version = "1.0.2"
+  vpc_id = var.vpc_id
+  vswitch_id = var.vswitch_id
+  instance_name = var.instance_name
+  instance_type = var.instance_type
+  key_name = var.key_name
+  allocate_and_associate_eip = var.allocate_and_associate_eip
+  volume_size = var.volume_size
+  disk_category = var.disk_category
+  ram_role_name = var.ram_role_name
+  instance_tags = var.instance_tags
+  version_license = var.version_license
+  admin_shell = var.admin_shell
+  password_hash = var.password_hash
+  hostname = var.hostname
+  is_primary_management = var.is_primary_management
+  SICKey = var.SICKey
+  allow_upload_download = var.allow_upload_download
+  gateway_management = var.gateway_management
+  admin_cidr = var.admin_cidr
+  gateway_addresses = var.gateway_addresses
+  primary_ntp = var.primary_ntp
+  secondary_ntp = var.secondary_ntp
+  bootstrap_script = var.bootstrap_script
+}

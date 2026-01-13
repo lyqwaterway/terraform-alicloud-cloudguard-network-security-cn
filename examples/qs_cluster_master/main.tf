@@ -1,3 +1,4 @@
+provider "alicloud" {}
 module "example_module" {
   source  = "lyqwaterway/cloudguard-network-security-cn/alicloud//modules/cluster-master"
   version = "0.0.1"

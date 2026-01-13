@@ -87,7 +87,7 @@ module "example_module" {
    ```
 - Prepare vpc and subnet in the deployment :
      ```
-    terraform apply -target==module.example_module.alicloud_route_table.private_vswitch_r
+    terraform apply -target=module.example_module.alicloud_route_table.private_vswitch_rt
     ```
 - - Create an execution plan:
     ```
